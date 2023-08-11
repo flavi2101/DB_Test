@@ -1,7 +1,7 @@
 import { modifyingArrayEntrada } from "./modifyArrayEntrada.js";
 import { handleError } from "./handleError.js";
 
-function changeItens(itensPedido, itens, erroMessage) {
+function validationItens(itensPedido, itens, erroMessage) {
   let itenEquantity = modifyingArrayEntrada(itensPedido);
 
   if (itenEquantity.some((val) => val.length !== 2)) {
@@ -9,12 +9,21 @@ function changeItens(itensPedido, itens, erroMessage) {
   }
 
   return function (checkItenInCardapio) {
-    if(erroMessage.message !== null) return
+    if (erroMessage.message !== null) return;
 
     for (let i = 0; i < itenEquantity.length; i++) {
       let isValidItem = checkItenInCardapio(itenEquantity[i]);
-      
-      if (typeof isValidItem !== "string") {
+      let isVAlidQuantity = checkQuantity(Number(itenEquantity[i][1]));
+
+      if (typeof isValidItem === "string") {
+        erroMessage.message = isValidItem;
+        itens = [];
+        return null
+      } else if (typeof isVAlidQuantity === "string") {
+        erroMessage.message = isVAlidQuantity;
+        itens = [];
+        return null
+      } else {
         let item = {
           codigoItem: itenEquantity[i][0],
           quantidade: itenEquantity[i][1],
@@ -22,13 +31,14 @@ function changeItens(itensPedido, itens, erroMessage) {
           principal: isValidItem.principal,
         };
         itens.push(item);
-      } else {
-        erroMessage.message = isValidItem;
-        itens = []
-        return erroMessage.message;
+       
       }
     }
   };
 }
 
-export { changeItens };
+function checkQuantity(item) {
+  return item > 0 ? true : handleError(2);
+}
+
+export { validationItens };
