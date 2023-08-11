@@ -32,11 +32,11 @@ class Pedido extends Pagamento {
   #cobrar() {
     switch (this.metodoDePagamento) {
       case Pagamento.dinheiro:
-        return console.log(`R$ ${(this.#total * 0.95).toFixed(2)}`);
+        return console.log(`R$ ${(this.#total * 0.95).toFixed(2).replace(".",",")}`);
       case Pagamento.credito:
-        return console.log(`R$ ${(this.#total * 1.03).toFixed(2)}`);
+        return console.log(`R$ ${(this.#total * 1.03).toFixed(2).replace(".",",")}`);
       case Pagamento.debito:
-        return console.log(`R$ ${this.#total.toFixed(2)}`);
+        return console.log(`R$ ${this.#total.toFixed(2).replace(".",",")}`);
       default:
         return "Forma de Pagamento Invalida";
     }
