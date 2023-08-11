@@ -7,7 +7,8 @@ class Pedido extends Pagamento {
     super();
     this.metodoDePagamento = metodoDePagamento;
     this.itens = [];
-    changeItens(itensPedido,this.itens)(Cardapio.getItemFromCardapio);
+    this.errorMessage = {message : null}
+    changeItens(itensPedido,this.itens,this.errorMessage)(Cardapio.getItemFromCardapio);
   }
 
   

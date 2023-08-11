@@ -1,7 +1,12 @@
+import { Pedido } from "./Pedido.js";
+
 class CaixaDaLanchonete {
 
     calcularValorDaCompra(metodoDePagamento, itens) {
-        return "";
+
+        let teste  = new Pedido(metodoDePagamento,itens)
+       
+      
     }
 
 }

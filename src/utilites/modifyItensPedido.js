@@ -1,29 +1,34 @@
 import { modifyingArrayEntrada } from "./modifyArrayEntrada.js";
+import { handleError } from "./handleError.js";
 
-function changeItens(itensPedido, itens) {
+function changeItens(itensPedido, itens, erroMessage) {
   let itenEquantity = modifyingArrayEntrada(itensPedido);
-  if (itenEquantity.length % 2 !== 0) {
-    try {
-      throw new Error("Erro no pedido,verifique se foi informado quantidade");
-    } catch (error) {
-      console.log(error)
-    }
-  } else {
-    return function (checkItenInCardapio) {
-      for (let i = 0; i < itenEquantity.length; i++) {
-        let isValidItem = checkItenInCardapio(itenEquantity[i]);
-        if (typeof isValidItem === "object") {
-          let item = {
-            codigoItem: itenEquantity[i][0],
-            quantidade: itenEquantity[i][1],
-            preco: isValidItem.preco,
-            principal: isValidItem.principal,
-          };
-          itens.push(item);
-        } 
-      }
-    };
+
+  if (itenEquantity.some((val) => val.length !== 2)) {
+    erroMessage.message = handleError(1);
   }
+
+  return function (checkItenInCardapio) {
+    if(erroMessage.message !== null) return
+
+    for (let i = 0; i < itenEquantity.length; i++) {
+      let isValidItem = checkItenInCardapio(itenEquantity[i]);
+      
+      if (typeof isValidItem !== "string") {
+        let item = {
+          codigoItem: itenEquantity[i][0],
+          quantidade: itenEquantity[i][1],
+          preco: isValidItem.preco,
+          principal: isValidItem.principal,
+        };
+        itens.push(item);
+      } else {
+        erroMessage.message = isValidItem;
+        itens = []
+        return erroMessage.message;
+      }
+    }
+  };
 }
 
 export { changeItens };

@@ -1,3 +1,5 @@
+import { handleError } from "./utilites/handleError.js";
+
 class Cardapio {
   static itensCardapio = [
     {
@@ -52,15 +54,10 @@ class Cardapio {
     let exist = Cardapio.itensCardapio.find(
       (iten) => iten.codigo === userChoice[0]
     );
-    if (exist === "undefined") {
-      try {
-        throw new Error("Item inválido");
-      } catch (error) {
-        console.log(error)
-      }
-    } else {
-      return exist;
-    }
+
+   let response =  typeof exist === "undefined" ? handleError(0) : exist;
+
+    return response;
   }
 }
 
