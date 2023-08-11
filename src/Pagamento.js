@@ -1,4 +1,5 @@
 import { Cardapio } from "./Cardapio.js";
+import { handleError } from "./utilites/handleError.js";
 
 class Pagamento extends Cardapio {
   static dinheiro = "dinheiro";
@@ -12,18 +13,21 @@ class Pagamento extends Cardapio {
     }
   }
 
-  cobrar(opcaoDePagamento, total) {
-    switch (opcaoDePagamento) {
-      case this.dinheiro:
-        return total * 0.95;
-      case this.credito:
-        return total * 1.03;
-      case this.dinheiro:
-        return total;
+   
+
+  validacaoPagamento(error, opcao) {
+    switch (opcao) {
+      case Pagamento.dinheiro:
+        return true;
+      case Pagamento.credito:
+        return true;
+      case Pagamento.debito:
+        return true;
       default:
-        return "Forma de Pagamento Invalida";
+        error.message.push(handleError(4));
+        error.size++;
     }
   }
 }
 
-export {Pagamento}
+export { Pagamento };
