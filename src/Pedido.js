@@ -15,6 +15,7 @@ class Pedido extends Pagamento {
       this.errorMessage
     )(Cardapio.getItemFromCardapio);
     this.validacaoPagamento(this.errorMessage, this.metodoDePagamento);
+    
   }
 
   calcularTotal() {

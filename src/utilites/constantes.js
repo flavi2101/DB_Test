@@ -1,0 +1,9 @@
+export const nameConsts = {
+    ITEM_INEXISTENTE: 0,
+    SEM_QUANTIDADE: 1,
+    QUANTIDADEZERO: 2,
+    PAGAMENTO: 4,
+    EMPTYCARRINHO: 5,
+    SEMPRICIPAL:6
+};
+

@@ -1,35 +1,35 @@
 import { modifyingArrayEntrada } from "./modifyArrayEntrada.js";
 import { handleError } from "./handleError.js";
+import { nameConsts } from "./constantes.js";
+import { validationOfExtra } from "./validationOfExtra.js";
+import { incressingErrorSize } from "./handleError.js";
 
 function checkQuantity(item) {
-  return item > 0 ? true : handleError(2);
+  return item > 0 ? true : handleError(nameConsts.QUANTIDADEZERO);
 }
 
-function incressingErrorSize(erroObject,erroType){
-  erroObject.message.push(handleError(erroType));
-  erroObject.size++
-}
+
 
 function validationItens(itensPedido, itens, erroMessage) {
 
   if(itensPedido.length ===0){
-    incressingErrorSize(erroMessage,5)
+    incressingErrorSize(erroMessage,nameConsts.EMPTYCARRINHO)
    
   }
 
-  let itenEquantity = modifyingArrayEntrada(itensPedido);
+  let itenAndQuantity = modifyingArrayEntrada(itensPedido);
 
-  if (itenEquantity.some((val) => val.length !== 2)) {
-    incressingErrorSize(erroMessage,1)
+  if (itenAndQuantity.some((val) => val.length !== 2)) {
+    incressingErrorSize(erroMessage,nameConsts.SEM_QUANTIDADE)
 
   }
 
   return function (checkItenInCardapio) {
     if (erroMessage.size !== 0) return;
 
-    for (let i = 0; i < itenEquantity.length; i++) {
-      let isValidItem = checkItenInCardapio(itenEquantity[i]);
-      let isVAlidQuantity = checkQuantity(Number(itenEquantity[i][1]));
+    for (let i = 0; i < itenAndQuantity.length; i++) {
+      let isValidItem = checkItenInCardapio(itenAndQuantity[i]);
+      let isVAlidQuantity = checkQuantity(Number(itenAndQuantity[i][1]));
 
       if (typeof isValidItem === "string") {
         erroMessage.message.push(isValidItem);
@@ -43,8 +43,8 @@ function validationItens(itensPedido, itens, erroMessage) {
         return null
       } else {
         let item = {
-          codigoItem: itenEquantity[i][0],
-          quantidade: Number(itenEquantity[i][1]),
+          codigoItem: itenAndQuantity[i][0],
+          quantidade: Number(itenAndQuantity[i][1]),
           preco: isValidItem.preco,
           principal: isValidItem.principal,
         };
@@ -52,6 +52,8 @@ function validationItens(itensPedido, itens, erroMessage) {
        
       }
     }
+
+    validationOfExtra(erroMessage,itens)
   };
 }
 
