@@ -2,7 +2,7 @@ import { nameConsts } from "./constantes.js";
 import { incressingErrorSize } from "./handleError.js";
 
 function validationOfExtra(erroObj, pedidos) {
-  let checkIfHasMainItens = pedidos.every((iten) => iten.pricipal === true);
+  let checkIfHasMainItens = pedidos.every((iten) => iten.pricipal === false);
 
   if (checkIfHasMainItens) {
     incressingErrorSize(erroObj, nameConsts.SEMPRICIPAL);
@@ -12,28 +12,32 @@ function validationOfExtra(erroObj, pedidos) {
 
   let hasCafe = false;
   let hasSanduiche = false;
+  let hasChantily = false;
+  let hasQueijo = false;
 
   for (let pedido of pedidos) {
     if (pedido.codigoItem === "cafe") {
       hasCafe = true;
     } else if (pedido.codigoItem === "sanduiche") {
       hasSanduiche = true;
-    } else if (pedido.codigoItem === "chantily") {
-      var hasChantiy = hasCafe;
+    } else if (pedido.codigoItem === "chantily" ) {
+      hasChantily = true;
     } else if (pedido.codigoItem === "queijo") {
-      var hasQueijo = hasSanduiche;
+      hasQueijo = true;
     }
   }
 
-  for (let i =0; i < pedidos.length; i++) {
-    if (hasChantiy) {
-      continue;
-    } else if (hasQueijo) {
-      continue;
-    } else {
+  for (let i = 0; i < pedidos.length; i++) {
+    if ((hasChantily === true && hasCafe === false)  ) {
       incressingErrorSize(erroObj, nameConsts.SEMPRICIPAL);
       pedidos = [];
       return;
+    } else if ((hasQueijo ===true && hasSanduiche ===false) ) {
+      incressingErrorSize(erroObj, nameConsts.SEMPRICIPAL);
+      pedidos = [];
+      return;
+    } else {
+      continue;
     }
   }
 }

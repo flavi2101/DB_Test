@@ -3,19 +3,19 @@ import { nameConsts } from "./constantes.js";
 export function handleError(error) {
   switch (error) {
     case nameConsts.SEM_QUANTIDADE:
-      return new Error("Erro no pedido,verifique se foi informado quantidade")
+      return new Error("Item inválido!")
         .message;
 
     case nameConsts.ITEM_INEXISTENTE:
-      return new Error("Item Invalido").message;
+      return new Error("Item inválido!").message;
 
     case nameConsts.QUANTIDADEZERO:
-      return new Error("Quantidade Invalida").message;
+      return new Error("Quantidade inválida!").message;
 
     case nameConsts.PAGAMENTO:
-      return new Error("Forma de Pagamento Invalida").message;
+      return new Error("Forma de pagamento inválida!").message;
     case nameConsts.EMPTYCARRINHO:
-      return new Error("Carrinho esta vazio").message;
+      return new Error("Não há itens no carrinho de compra!").message;
     case nameConsts.SEMPRICIPAL:
       return new Error("Item extra não pode ser pedido sem o principal").message;
   }
@@ -23,6 +23,6 @@ export function handleError(error) {
 
 
 export function incressingErrorSize(erroObject,erroType){
-  erroObject.message.push(handleError(erroType));
+  erroObject.message = handleError(erroType);
   erroObject.size++
 }

@@ -50,6 +50,8 @@ class Cardapio {
     }
   }
 
+
+  //Cruzar dados de entrada com informações do cardapio
   static getItemFromCardapio(userChoice) {
     let exist = Cardapio.itensCardapio.find(
       (iten) => iten.codigo === userChoice[0]

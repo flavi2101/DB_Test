@@ -24,7 +24,7 @@ class Pagamento extends Cardapio {
       case Pagamento.debito:
         return true;
       default:
-        error.message.push(handleError(4));
+        error.message = handleError(4);
         error.size++;
     }
   }

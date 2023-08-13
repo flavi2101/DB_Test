@@ -4,7 +4,8 @@ class CaixaDaLanchonete {
 
     calcularValorDaCompra(metodoDePagamento, itens) {
 
-        let teste  = new Pedido(metodoDePagamento,itens)
+        let pedido1  = new Pedido(metodoDePagamento,itens)
+        return pedido1.calcularTotal()
        
       
     }

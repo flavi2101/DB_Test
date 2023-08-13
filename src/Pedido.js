@@ -2,13 +2,22 @@ import { validationItens } from "./utilites/validationItens.js";
 import { Pagamento } from "./Pagamento.js";
 import { Cardapio } from "./Cardapio.js";
 
+/*Ao se instanciar um pedido ele tem no seu construtor a funçao:
+1-Criar um prototype chain com a classe pagamento e Cardapio
+2-Validação dos dados de entrada
+3-Validação da forma de pagamento
+4- Array de posiveis erros
+*/
+
 class Pedido extends Pagamento {
+  // Impedir acesso a alteração do valor da varaivel total
   #total = 0;
+
   constructor(metodoDePagamento, itensPedido) {
     super();
     this.metodoDePagamento = metodoDePagamento;
     this.itens = [];
-    this.errorMessage = { message: [], size: 0 };
+    this.errorMessage = { message: null, size: 0 };
     validationItens(
       itensPedido,
       this.itens,
@@ -24,20 +33,20 @@ class Pedido extends Pagamento {
         return sum + current.quantidade * current.preco;
       }, 0);
 
-      this.#cobrar();
+     return this.#cobrar();
     } else {
-      return this.errorMessage.message.forEach((item) => console.log(item));
+      return this.errorMessage.message;
     }
   }
 
   #cobrar() {
     switch (this.metodoDePagamento) {
       case Pagamento.dinheiro:
-        return console.log(`R$ ${(this.#total * 0.95).toFixed(2).replace(".",",")}`);
+        return `R$ ${(this.#total * 0.95).toFixed(2).replace(".",",")}`;
       case Pagamento.credito:
-        return console.log(`R$ ${(this.#total * 1.03).toFixed(2).replace(".",",")}`);
+        return `R$ ${(this.#total * 1.03).toFixed(2).replace(".",",")}`;
       case Pagamento.debito:
-        return console.log(`R$ ${this.#total.toFixed(2).replace(".",",")}`);
+        return `R$ ${this.#total.toFixed(2).replace(".",",")}`;
       default:
         return "Forma de Pagamento Invalida";
     }
